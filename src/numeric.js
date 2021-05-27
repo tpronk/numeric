@@ -1,8 +1,5 @@
 "use strict";
-
-var numeric = (typeof exports === "undefined")?(function numeric() {}):(exports);
-if(typeof global !== "undefined") { global.numeric = numeric; }
-
+let numeric = {};
 numeric.version = "1.2.6";
 
 // 1. Utility functions
@@ -3261,3 +3258,5 @@ numeric.MPStoLP = function MPStoLP(MPS) {
     }
     err('Reached end of file without ENDATA');
 }
+
+export default {numeric};
