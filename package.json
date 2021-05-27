@@ -8,5 +8,5 @@
     "name": "Thomas Pronk"
   },
   "type": "module",
-  "main": "src/numeric.js",
+  "main": "src/numeric.js"
 }
