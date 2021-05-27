@@ -692,14 +692,14 @@ numeric.mapreducers = {
             numeric[i+'VS'] = numeric.pointwise2(['x[i]','y'],code('ret[i]','x[i]','y'),setup);
             numeric[i] = Function(
                     'var n = arguments.length, i, x = arguments[0], y;\n'+
-                    'var VV = numeric.'+i+'VV, VS = numeric.'+i+'VS, SV = numeric.'+i+'SV;\n'+
-                    'var dim = numeric.dim;\n'+
+                    'var VV = this.'+i+'VV, VS = this.'+i+'VS, SV = this.'+i+'SV;\n'+
+                    'var dim = this.dim;\n'+
                     'for(i=1;i!==n;++i) { \n'+
                     '  y = arguments[i];\n'+
                     '  if(typeof x === "object") {\n'+
-                    '      if(typeof y === "object") x = numeric._biforeach2(x,y,dim(x),0,VV);\n'+
-                    '      else x = numeric._biforeach2(x,y,dim(x),0,VS);\n'+
-                    '  } else if(typeof y === "object") x = numeric._biforeach2(x,y,dim(y),0,SV);\n'+
+                    '      if(typeof y === "object") x = this._biforeach2(x,y,dim(x),0,VV);\n'+
+                    '      else x = this._biforeach2(x,y,dim(x),0,VS);\n'+
+                    '  } else if(typeof y === "object") x = this._biforeach2(x,y,dim(y),0,SV);\n'+
                     '  else '+codeeq('x','y')+'\n'+
                     '}\nreturn x;\n');
             numeric[o] = numeric[i];
@@ -707,12 +707,12 @@ numeric.mapreducers = {
             numeric[i+'eqS'] = numeric.pointwise2(['ret[i]','x'], codeeq('ret[i]','x'),setup);
             numeric[i+'eq'] = Function(
                     'var n = arguments.length, i, x = arguments[0], y;\n'+
-                    'var V = numeric.'+i+'eqV, S = numeric.'+i+'eqS\n'+
-                    'var s = numeric.dim(x);\n'+
+                    'var V = this.'+i+'eqV, S = this.'+i+'eqS\n'+
+                    'var s = this.dim(x);\n'+
                     'for(i=1;i!==n;++i) { \n'+
                     '  y = arguments[i];\n'+
-                    '  if(typeof y === "object") numeric._biforeach(x,y,s,0,V);\n'+
-                    '  else numeric._biforeach(x,y,s,0,S);\n'+
+                    '  if(typeof y === "object") this._biforeach(x,y,s,0,V);\n'+
+                    '  else this._biforeach(x,y,s,0,S);\n'+
                     '}\nreturn x;\n');
         }
     }
@@ -735,17 +735,17 @@ numeric.mapreducers = {
             numeric[i+'eq'] = Function('x',
                     'if(typeof x !== "object") return '+o+'x\n'+
                     'var i;\n'+
-                    'var V = numeric.'+i+'eqV;\n'+
-                    'var s = numeric.dim(x);\n'+
-                    'numeric._foreach(x,s,0,V);\n'+
+                    'var V = this.'+i+'eqV;\n'+
+                    'var s = this.dim(x);\n'+
+                    'this._foreach(x,s,0,V);\n'+
                     'return x;\n');
             numeric[i+'V'] = numeric.pointwise2(['x[i]'],'ret[i] = '+o+'(x[i]);',setup);
             numeric[i] = Function('x',
                     'if(typeof x !== "object") return '+o+'(x)\n'+
                     'var i;\n'+
-                    'var V = numeric.'+i+'V;\n'+
-                    'var s = numeric.dim(x);\n'+
-                    'return numeric._foreach2(x,s,0,V);\n');
+                    'var V = this.'+i+'V;\n'+
+                    'var s = this.dim(x);\n'+
+                    'return this._foreach2(x,s,0,V);\n');
         }
     }
     for(i=0;i<numeric.mathfuns.length;++i) {
@@ -763,9 +763,9 @@ numeric.mapreducers = {
                     o[0]+';\n'+
                     '    return accum;\n'+
                     '}'+
-                    'if(typeof s === "undefined") s = numeric.dim(x);\n'+
+                    'if(typeof s === "undefined") s = this.dim(x);\n'+
                     'if(typeof k === "undefined") k = 0;\n'+
-                    'if(k === s.length-1) return numeric.'+i+'V(x);\n'+
+                    'if(k === s.length-1) return this.'+i+'V(x);\n'+
                     'var xi;\n'+
                     'var n = x.length, i;\n'+
                     'for(i=n-1;i!==-1;--i) {\n'+
@@ -3259,4 +3259,4 @@ numeric.MPStoLP = function MPStoLP(MPS) {
     err('Reached end of file without ENDATA');
 }
 
-export default {numeric};
+export default numeric;
